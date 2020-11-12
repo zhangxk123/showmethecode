@@ -1,0 +1,10 @@
+import myNew from "./new.js";
+import myCall from "./call.js";
+import myApply from "./apply.js";
+import myBind from "./bind.js";
+import myPromise from "./promise.js";
+import curry from "./curry.js";
+import deepClone from "./deepClone.js";
+import debounce from "./debounce.js";
+import throttle from "./throttle.js";
+export { myNew, myCall, myApply, myBind, myPromise, curry, deepClone, debounce, throttle };
