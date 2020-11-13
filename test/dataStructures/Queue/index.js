@@ -1,4 +1,4 @@
-import Deque from "./../../../src/dataStructures/Queue/Deque.js";
+import Deque from "../../../src/dataStructures/Queue/Deque.js";
 const deque = new Deque();
 console.log(deque);
 deque.addFront(1);

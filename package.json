@@ -4,7 +4,8 @@
 	"description": "前端代码实现",
 	"main": "index.js",
 	"scripts": {
-		"server": "http-server -c-1 -p 8081",
+    "server": "http-server -c-1 -p 8081",
+    "test:Promise": "babel-node ./test/sourceCode/promise.node.js",
 		"test:Stack": "babel-node ./test/dataStructures/Stack/index.js",
 		"test:Queue": "babel-node ./test/dataStructures/Queue/index.js"
 	},
