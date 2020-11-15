@@ -1,21 +1,25 @@
 {
-	"name": "showmethecode",
-	"version": "1.0.0",
-	"description": "前端代码实现",
-	"main": "index.js",
-	"scripts": {
-    "server": "http-server -c-1 -p 8081",
+  "name": "showmethecode",
+  "version": "1.0.0",
+  "description": "前端代码实现",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server -c-1 -p 8081",
+    "lint:fix": "eslint --fix --ext .js src",
     "test:Promise": "babel-node ./test/sourceCode/promise.node.js",
-		"test:Stack": "babel-node ./test/dataStructures/Stack/index.js",
-		"test:Queue": "babel-node ./test/dataStructures/Queue/index.js"
-	},
-	"author": "zhang.xiaokang",
-	"license": "ISC",
-	"devDependencies": {
-		"@babel/cli": "^7.12.1",
-		"@babel/core": "^7.12.3",
-		"@babel/node": "^7.12.6",
-		"@babel/preset-env": "^7.12.1",
-		"http-server": "^0.12.3"
-	}
+    "test:Stack": "babel-node ./test/dataStructures/Stack/index.js",
+    "test:Queue": "babel-node ./test/dataStructures/Queue/index.js"
+  },
+  "author": "zhang.xiaokang",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.6",
+    "@babel/preset-env": "^7.12.1",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "http-server": "^0.12.3"
+  }
 }
