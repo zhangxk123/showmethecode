@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>curry-showmethecode</title>
+	</head>
+	<body>
+    <p>科里化</p>
+		<script type="module">
+			import curry from "./../src/sourceCode/curry.js";
+			const sum = function (x, y, z) {
+				return x + y + z;
+			};
+			const currySum = curry(sum);
+			console.log(currySum(1, 2, 3)); // 6
+			console.log(currySum(1, 2)(3)); // 6
+			console.log(currySum(1)(2, 3)); // 6
+			console.log(currySum(1)(2)(3)); // 6
+		</script>
+	</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>debounce-showmethecode</title>
+	</head>
+	<body>
+    <p>防抖函数,滚动事件</p>
+		<script type="module">
+			import debounce from "./../src/sourceCode/debounce.js";
+			function getScrollTop(e) {
+				console.log(window.pageYOffset);
+			}
+			document.body.style.height = "200vh";
+			window.addEventListener("scroll", debounce(getScrollTop, 100));
+		</script>
+	</body>
+</html>

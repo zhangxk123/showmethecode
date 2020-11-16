@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>new-showmethecode</title>
+	</head>
+	<body>
+    <p>模拟new</p>
+		<script type="module">
+			import myNew from "./../src/sourceCode/new.js";
+			function Person(name) {
+				this.name = name;
+			}
+			Person.prototype.say = function say() {
+				return `my name is ${this.name}`;
+			};
+			const p = myNew(Person, "xiaoming");
+			console.log(p instanceof Person); // true
+			console.log(p.name); // xiaoming
+			console.log(p.say()); // my name is xiaoming
+		</script>
+	</body>
+</html>

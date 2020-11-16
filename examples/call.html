@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>call-showmethecode</title>
+	</head>
+	<body>
+    <p>模拟call</p>
+		<script type="module">
+			import myCall from "./../src/sourceCode/call.js";
+			Function.prototype.myCall = myCall;
+			const p = {
+				name: "xiaoming",
+				age: 18,
+				length: 20,
+			};
+			console.log(Array.prototype.slice.call(p)); // [ <20 empty items> ]
+			console.log(Array.prototype.slice.myCall(p)); // [ <20 empty items> ]
+			console.log(Array.prototype.slice.call(p, 0, 1)); // [ <20 empty items> ]
+			console.log(Array.prototype.slice.myCall(p, 0, 1)); // [ <20 empty items> ]
+		</script>
+	</body>
+</html>

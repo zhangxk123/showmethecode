@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>set-showmethecode</title>
+	</head>
+	<body>
+    <p>Set结构的并集，交集，差集，子集</p>
+		<script type="module">
+			import {
+        union,
+				intersection,
+				difference,
+				isSubsetof,
+			} from "./../src/dataStructures/Set/index.js";
+			const test1 = new Set([1, 2, 3, 4]);
+			const test2 = new Set([3, 4, 5, 6, 7, 8]);
+			const test3 = new Set([1, 2, 3, 4, 5, 6, 7, 8]);
+			console.log(`并集`, union(test1, test2));
+			console.log(`交集`, intersection(test1, test2));
+			console.log(`差集`, difference(test1, test2));
+			console.log(`子集1<3`, isSubsetof(test1, test3));
+			console.log(`子集1<2`, isSubsetof(test1, test2));
+		</script>
+	</body>
+</html>

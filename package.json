@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "http-server -c-1 -p 8081",
     "lint:fix": "eslint --fix --ext .js src",
-    "test:Promise": "babel-node ./test/sourceCode/promise.node.js",
-    "test:Stack": "babel-node ./test/dataStructures/Stack/index.js",
-    "test:Queue": "babel-node ./test/dataStructures/Queue/index.js"
+    "test:Promise": "babel-node ./test/sourceCode/promise.node.js"
   },
   "author": "zhang.xiaokang",
   "license": "ISC",

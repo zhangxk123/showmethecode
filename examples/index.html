@@ -3,22 +3,35 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>showmethecode</title>
+    <title>showmethecode</title>
+    <style>
+      li{
+        padding:10px 0;
+      }
+    </style>
 	</head>
 	<body>
-		<script type="module">
-			//主模块
-			import {
-				myNew,
-				myCall,
-				myApply,
-				myBind,
-				MyPromise,
-				curry,
-				deepClone,
-				debounce,
-				throttle,
-			} from "./../src/sourceCode/index.js";
+    <p>需要打开控制台</p>
+		<script>
+			const examples = [
+				"new",
+				"call",
+				"apply",
+				"bind",
+				"promise",
+				"curry",
+				"deepClone",
+				"debounce",
+				"throttle",
+			];
+			let ol = document.createElement("ol");
+      let li;
+			examples.forEach(value => {
+        li = document.createElement("li");
+				li.innerHTML = `<a href="./${value}.html">${value}</a>`;
+				ol.append(li);
+			});
+			document.body.append(ol);
 		</script>
 	</body>
 </html>
