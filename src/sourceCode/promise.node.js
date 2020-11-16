@@ -1,14 +1,12 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-loop-func */
 // 三种状态
-const [PENDING, FULFILLED, REJECTED] = ['pending', 'fulfilled', 'rejected'];
-// 判断一个变量是否可迭代
-export const isIterable = (obj) => obj != null
-  && (typeof obj === 'object' || typeof obj === 'function')
-  && typeof obj[Symbol.iterator] === 'function';
+const [PENDING, FULFILLED, REJECTED] = ["pending", "fulfilled", "rejected"];
 // class MyPromise
 export default class MyPromise {
   constructor(execute) {
-    if (typeof execute !== 'function') {
-      throw Error('参数必须是一个函数');
+    if (typeof execute !== "function") {
+      throw Error("参数必须是一个函数");
     }
     // 状态
     this.state = PENDING;
@@ -46,7 +44,7 @@ export default class MyPromise {
   }
 
   // 静态resolve函数
-  static resolve(param = this.result) {
+  static resolve(param) {
     if (param instanceof MyPromise) {
       // 幂等
       return param;
@@ -57,55 +55,75 @@ export default class MyPromise {
   }
 
   // 静态reject函数,非幂等
-  static reject(param = this.result) {
+  static reject(param) {
     return new MyPromise((resolve, reject) => {
       reject(param);
     });
   }
 
   // 静态all方法
-  static all(params) {
-    if (!isIterable(params)) {
-      throw Error('参数不可迭代');
-    }
+  static all(iterable /* 可迭代对象 */) {
+    // 返回结果一定是一个Promise实例
     return new MyPromise((resolve, reject) => {
-      const itemsMap = new Map();
-      // 迭代参数的个数
-      const len = params.length;
-      for (const item of params) {
-        // 非promise转成promise实例
-        const promiseItem = item instanceof MyPromise ? item : MyPromise.resolve(item);
-        promiseItem.then(
+      let index = 0; // 元素索引
+      const result = []; // 全部解决的结果数组
+      let resCount = 0; // 解决的个数
+      let hasRejected = false; // 是否有拒绝
+      for (const element of iterable) {
+        const currentIndex = index;
+        element.then(
           (res) => {
-            itemsMap.set(item, res);
-            itemsMap.size == len && resolve([...itemsMap.values()]);
+            if (hasRejected) {
+              return;
+            }
+            result[currentIndex] = res;
+            resCount++;
+            if (resCount == result.length) {
+              resolve(result);
+            }
           },
           (err) => {
+            if (hasRejected) {
+              return;
+            }
+            hasRejected = true;
             reject(err);
-          },
+          }
         );
+        // 迭代统计元素个数
+        index++;
+      }
+      // 如果迭代完，是个空
+      if (index == 0) {
+        // 返回值为空数组的解决态promisee
+        resolve([]);
       }
     });
   }
 
   // 静态方法，竞速
   // 返回第一个落定的promise，完成和拒绝状态同等优先级，都没有回调就是pending
-  static race(params) {
-    if (!isIterable(params)) {
-      throw Error('参数不可迭代');
-    }
+  static race(iterable) {
     return new MyPromise((resolve, reject) => {
+      let hasSettled = false;
       // 迭代参数的个数
-      for (const item of params) {
+      for (const element of iterable) {
         // 非promise转成promise实例
-        const promiseItem = item instanceof MyPromise ? item : MyPromise.resolve(item);
-        promiseItem.then(
+        element.then(
           (res) => {
+            if (hasSettled) {
+              return;
+            }
+            hasSettled = true;
             resolve(res);
           },
           (err) => {
+            if (hasSettled) {
+              return;
+            }
+            hasSettled = true;
             reject(err);
-          },
+          }
         );
       }
     });
@@ -118,7 +136,7 @@ export default class MyPromise {
   // 如果是promise，则用返回值的then()方法
   then(onResolved, onRejected) {
     return new MyPromise((resolve, reject) => {
-      if (typeof onResolved === 'function') {
+      if (typeof onResolved === "function") {
         this.resolvedCbs.push(() => {
           const result = onResolved(this.result);
           if (result instanceof MyPromise) {
@@ -127,7 +145,7 @@ export default class MyPromise {
           return result;
         });
       }
-      if (typeof onRejected === 'function') {
+      if (typeof onRejected === "function") {
         this.rejectedCbs.push(() => {
           const result = onRejected(this.result);
           if (result instanceof MyPromise) {

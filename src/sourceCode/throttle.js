@@ -14,10 +14,3 @@ export default function throttle(fn, ms = 1000 / 60) {
     }, ms);
   };
 }
-console.info('------------------test throttle start--------------------');
-function getScrollTop(e) {
-  console.log(window.pageYOffset);
-}
-document.body.style.height = '200vh';
-window.addEventListener('scroll', throttle(getScrollTop, 100));
-console.info('------------------test throttle end--------------------');

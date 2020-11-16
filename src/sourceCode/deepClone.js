@@ -9,6 +9,7 @@ export default function deepClone(obj, cache = new WeakMap()) {
   // 函数
   if (typeof obj === 'function') {
     return function () {
+      // eslint-disable-next-line prefer-rest-params
       return obj.apply(arguments);
     };
   }
@@ -41,40 +42,3 @@ export default function deepClone(obj, cache = new WeakMap()) {
   });
   return cloneTarget;
 }
-// test
-console.info('------------------test deepClone start--------------------');
-const obj = {
-  zero: null,
-  zero2: undefined,
-  fn() {
-    alert(1);
-  },
-  arr: [1, 2, 3],
-  d: new Date(),
-  s: new Set(),
-  m: new Map(),
-  r: /\d+/,
-  o: {
-    a: 1,
-    b: {
-      b: {
-        b: {
-          b: {
-            b: {},
-          },
-        },
-      },
-    },
-  },
-};
-obj.self = obj;
-obj.arr.push(obj);
-obj.s.add(obj);
-obj.m.set('obj', obj);
-console.log(obj);
-console.time();
-const cloneObj = deepClone(obj);
-console.timeEnd();
-console.log(Object.entries(obj));
-
-console.info('------------------test deepClone end--------------------');

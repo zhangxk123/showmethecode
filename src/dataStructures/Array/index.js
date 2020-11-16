@@ -1,3 +1,5 @@
+/* eslint-disable no-array-constructor */
+/* eslint-disable no-unused-expressions */
 // ## 创建
 let arr = new Array(10); // [empty*10]
 arr = new Array(1, 2, 3, 4, 5, 6); // 1-6
