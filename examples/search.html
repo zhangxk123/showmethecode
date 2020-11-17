@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>search-showmethecode</title>
+	</head>
+	<body>
+		<p>搜索</p>
+		<script type="module">
+			import binarySearch from "./../src/algorithms/search/binarySearch.js";
+			import { sortedArray } from "./../src/utils.js";
+			const testArray = sortedArray(1000);
+			console.log(`原数组(1000){1,1000}`, testArray);
+			console.time("二分搜索用时");
+			console.log(`二分搜索500,位置在`, binarySearch(testArray, 500));
+			console.timeEnd("二分搜索用时");
+			console.time("二分搜索用时");
+			console.log(`二分搜索500.55,位置在`, binarySearch(testArray, -1));
+			console.timeEnd("二分搜索用时");
+		</script>
+	</body>
+</html>

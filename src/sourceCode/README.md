@@ -1,0 +1,10 @@
+## 源码实现
+1. new
+2. call
+3. apply
+4. bind
+5. promise
+6. debounce(防抖)
+7. throttle(节流)
+8. curry(科里化)
+9. deepClone(深拷贝)

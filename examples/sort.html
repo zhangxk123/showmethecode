@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>sort-showmethecode</title>
+	</head>
+	<body>
+		<p>排序</p>
+		<script type="module">
+			import {
+				bubbleSort,
+				selectionSort,
+				insertionSort,
+				mergeSort,
+				quickSort,
+				countingSort,
+			} from "./../src/algorithms/sort/index.js";
+			import { reverseArray } from "./../src/utils.js";
+			const testArray = reverseArray(1000);
+			console.log(`原数组(1000){1,100}`, testArray);
+			console.time("冒泡排序用时");
+			console.log(`冒泡排序`, bubbleSort(testArray.slice()));
+			console.timeEnd("冒泡排序用时");
+			console.time("选择排序用时");
+			console.log(`选择排序`, selectionSort(testArray.slice()));
+			console.timeEnd("选择排序用时");
+			console.time("插入排序用时");
+			console.log(`插入排序`, insertionSort(testArray.slice()));
+			console.timeEnd("插入排序用时");
+			console.time("归并排序用时");
+			console.log(`归并排序`, mergeSort(testArray.slice()));
+			console.timeEnd("归并排序用时");
+			console.time("快速排序用时");
+			console.log(`快速排序`, quickSort(testArray.slice()));
+			console.timeEnd("快速排序用时");
+			console.time("计数排序用时");
+			console.log(`计数排序`, countingSort(testArray.slice()));
+			console.timeEnd("计数排序用时");
+		</script>
+	</body>
+</html>

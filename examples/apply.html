@@ -6,14 +6,15 @@
 		<title>apply-showmethecode</title>
 	</head>
 	<body>
-    <p>模拟apply</p>
+		<p>模拟apply</p>
 		<script type="module">
 			import myApply from "./../src/sourceCode/apply.js";
 			Function.prototype.myApply = myApply;
+			function sum(x, y, z) {
+				return x + y + z;
+			}
 			const arr = [1, 2, 3];
-			console.log(Math.max(1, 2)); //2
-			console.log(Math.max.apply(null, arr)); // 3
-			console.log(Math.max.myApply(null, arr)); // 3
+			console.log(sum.myApply(null, arr) == sum.apply(null, arr)); // true
 		</script>
 	</body>
 </html>

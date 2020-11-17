@@ -1,26 +1,24 @@
 module.exports = {
-  "env": {
-    "browser": true,
+  env: {
+    browser: true,
     // "es2021": true,
-    "node": true
+    node: true,
   },
-  "extends": [
-    "airbnb-base"
-  ], // 解析器
-
-  "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module", // default script
-    "ecmaFeatures": {
-      "impliedStrict": true
-    }
+  extends: ["airbnb-base"],
+  // 解析器
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: "module", // default script
+    ecmaFeatures: {
+      impliedStrict: true,
+    },
   },
-  "rules": {
-    "indent": ["error", 2],
+  rules: {
+    indent: ["error", 2],
     "no-underscore-dangle": [0],
-    "eqeqeq": [0],
+    eqeqeq: [0],
     "quote-props": [0],
-    "quotes": [0],
+    quotes: [0],
     "no-console": [0],
     "func-names": [0],
     "no-extend-native": [0],
@@ -31,6 +29,7 @@ module.exports = {
     "no-alert": [0],
     "comma-dangle": [0],
     "eol-last": [0],
-    "linebreak-style": [0]
+    "linebreak-style": [0],
+    "no-use-before-define": [0],
   },
 };
