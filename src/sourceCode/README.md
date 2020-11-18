@@ -8,3 +8,5 @@
 7. throttle(节流)
 8. curry(科里化)
 9. deepClone(深拷贝)
+10. jsonp
+11. ajax

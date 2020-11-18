@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ajax-showmethecode</title>
+	</head>
+	<body>
+    <p>实现ajax</p>
+    <p id="result">返回的结果是：</p>
+    <code id="code"></code>
+		<script type="module">
+			import ajax from "./../src/sourceCode/ajax.js";
+			//注册jsonp成功方法
+			function successHandler(data) {
+				console.log(data);
+        const resultDom = document.getElementById("code");
+				resultDom.innerText = JSON.stringify(data);
+			}
+			function errorHandler(data) {
+				console.log(data);
+			}
+			//打开json请求
+			ajax({
+        url: "./../test/sourceCode/ajax.test.json",
+        method:"get",
+				params: {
+					id: 123456,
+				},
+				data: {
+					name: 1,
+					age: 2,
+				},
+				headers: {
+					"custom-header":"this is header"
+				},
+				success: successHandler,
+			});
+		</script>
+	</body>
+</html>
