@@ -24,7 +24,9 @@
 3. apply
 4. bind
 5. promise
-5. curry(科里化)
 6. debounce(防抖)
 7. throttle(节流)
-8. deepClone(深拷贝)
+8. curry(科里化)
+9. deepClone(深拷贝)
+10. jsonp
+11. ajax

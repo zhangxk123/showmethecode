@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>jsonp-showmethecode</title>
+	</head>
+	<body>
+		<p>实现jsonp</p>
+		<p id="result">返回的json是：</p>
+		<script type="module">
+      import jsonp from "./../src/sourceCode/jsonp.js";
+      //注册jsonp成功方法
+			function jsonpSuccess(data) {
+				console.log(data);
+				const resultDom = document.getElementById("result");
+				resultDom.innerText = `${resultDom.innerText}${JSON.stringify(data)}`;
+      };
+      //打开json请求
+			jsonp({
+				url: "./../test/sourceCode/jsonpData.js",
+				params: {
+					id: 123456,
+					query: "name",
+				},
+				callback: jsonpSuccess,
+			});
+		</script>
+	</body>
+</html>
