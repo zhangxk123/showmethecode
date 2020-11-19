@@ -11,8 +11,8 @@ export default function jsonp({ url, params, callback }) {
   querystring += `${Object.keys(query).reduce((a, b) => `${a}${b}=${query[b]}&`, "")}`;
   // 构建请求
   const scriptNode = document.createElement("script");
-  window[jsonpCallbackName] = function (params) {
-    callback(params);
+  window[jsonpCallbackName] = function (args) {
+    callback(args);
     document.getElementsByTagName("head")[0].removeChild(scriptNode);
   };
   // 发起请求
