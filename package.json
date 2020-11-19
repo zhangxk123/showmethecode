@@ -5,19 +5,38 @@
   "main": "index.js",
   "scripts": {
     "dev": "http-server -c-1 -p 8081",
-    "lint:fix": "eslint --fix --ext .js src",
-    "test:Promise": "babel-node ./test/sourceCode/promise.node.js"
+    "lint": "eslint src --fix",
+    "test": "mocha"
   },
   "author": "zhang.xiaokang",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
+    "@babel/eslint-parser": "^7.12.1",
     "@babel/node": "^7.12.6",
     "@babel/preset-env": "^7.12.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "chai": "^4.2.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "mocha": "^8.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -c",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,ts,tsx,jsx}": [
+      "npm run lint"
+    ]
   }
 }
