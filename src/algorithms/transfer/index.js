@@ -1,7 +1,9 @@
-// @arr {Array}
-// @result {Tree}
-const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
 // eslint-disable-next-line no-shadow
+/**
+ * @description 数组转树形结构
+ * @param {*} arr
+ * @returns {*} 树形结构{id,chidlren:[id,children]}
+ */
 function transfer(arr) {
   let i = 0;
   while (i < arr.length) {
@@ -9,4 +11,3 @@ function transfer(arr) {
   }
   return arr[0];
 }
-const result = transfer(arr);// {id:1,children:[{id:2,children:{id:3,children:[]}}]}

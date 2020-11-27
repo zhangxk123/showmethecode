@@ -6,16 +6,24 @@
 // es6 有尾调用优化,如果函数内操作是调用函数，会通过跳转指令（jump），而不是子程序调用的方式
 // 因此es6会一直调用下去
 
-// 计算一个数的阶乘 5!=5*4*3*2*1
-// 递归阶乘
-// 规律 n*f(n-1)
+/**
+ * @description 阶乘 递归写法
+ * @export
+ * @param {*} num
+ * @returns {*} 1*2*3*...*num
+ */
 export function factorial(num) {
   if (num == 1 || num == 0) {
     return 1;
   }
   return num * factorial(num - 1);
 }
-// 迭代阶乘
+/**
+ * @description 阶乘 循环写法
+ * @export
+ * @param {*} num
+ * @returns {*} 1*2*3*...*num
+ */
 export function factorial2(num) {
   let total = 1;
   for (let i = num; i > 1; i--) {
@@ -24,10 +32,12 @@ export function factorial2(num) {
   return total;
 }
 
-// 斐波那契数列[0,1,1,2,3,5,8,13,21...]
-// 规律 n=f(n-1)+f(n-2)
-
-// 1.迭代实现
+/**
+ * @description  斐波那契数列[0,1,1,2,3,5,8,13,21...]
+ * @export
+ * @param {*} n 索引
+ * @returns {*} 第n个数列的值
+ */
 export function fib(n) {
   if (n < 1) return 0;
   if (n <= 2) return 1;
@@ -41,14 +51,24 @@ export function fib(n) {
   }
   return next;
 }
-// 2. 递归实现
+/**
+ * @description  斐波那契数列  递归实现
+ * @export
+ * @param {*} n 索引
+ * @returns {*} 第n个数列的值
+ */
 export function fib2(n) {
   if (n < 1) return 0;
   if (n <= 2) return 1;
   return fib2(n - 1) + fib2(n - 2);
 }
 
-// 3.记忆化递归(将已经求的值缓存取来，无需重复计算)
+/**
+ * @description  斐波那契数列 记忆功能
+ * @export
+ * @param {*} n 索引
+ * @returns {*} 第n个数列的值
+ */
 export function fib3(n) {
   const memo = [0, 1];
   function fib3inner(n) {
