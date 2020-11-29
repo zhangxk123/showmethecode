@@ -1,7 +1,11 @@
-// 实现jsonp
-// @url 请求路径
-// @params 请求参数
-// @callback 回调函数名称
+/**
+ * @description 实现jsonp
+ * @export
+ * @param {*} { url, params, callback }
+ *  @url {String} 请求地址
+ *  @params {Object} 请求参数
+ *  @callback {Function} 回调函数
+ */
 export default function jsonp({ url, params, callback }) {
   // 构建参数
   let querystring = url.includes("?") ? "" : "?";

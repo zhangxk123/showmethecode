@@ -10,8 +10,8 @@ class LRU {
 
   /**
    * @description 使用Map 键值对有序的特性，删除第一条
-   * @param {*} key
-   * @param {*} value
+   * @param {*} key 键
+   * @param {*} value 值
    * @returns {*}
    * @memberof LRU
    */
@@ -20,7 +20,7 @@ class LRU {
       return;
     }
     if (this.range == this.items.size) {
-      // map键值对是有序的
+      // map键值对是有序的,Map.prototype.keys()返回是一个迭代器
       const old = this.items.keys().next().value;
       this.items.delete(old);
     }

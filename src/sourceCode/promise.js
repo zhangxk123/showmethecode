@@ -1,8 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-loop-func */
-// 三种状态
+
 const [PENDING, FULFILLED, REJECTED] = ["pending", "fulfilled", "rejected"];
-// class MyPromise
+/**
+ * @description 模拟Promise类
+ * @export
+ * @class MyPromise
+ */
 export default class MyPromise {
   constructor(execute) {
     if (typeof execute !== "function") {
@@ -43,7 +47,13 @@ export default class MyPromise {
     }
   }
 
-  // 静态resolve函数
+  /**
+   * @description 模拟Promise.resolve
+   * @static
+   * @param {*} param
+   * @return {*} 返回一个实例对象
+   * @memberof MyPromise
+   */
   static resolve(param) {
     if (param instanceof MyPromise) {
       // 幂等
@@ -54,14 +64,26 @@ export default class MyPromise {
     });
   }
 
-  // 静态reject函数,非幂等
+  /**
+   * @description 模拟Promise.reject
+   * @static
+   * @param {*} param
+   * @return {*} 返回一个实例对象
+   * @memberof MyPromise
+   */
   static reject(param) {
     return new MyPromise((resolve, reject) => {
       reject(param);
     });
   }
 
-  // 静态all方法
+  /**
+   * @description 模拟Promise.all
+   * @static
+   * @param {*} iterable 可迭代对象
+   * @return {*} 返回一个实例对象，值可能是结果数组或者失败理由
+   * @memberof MyPromiPse
+   */
   static all(iterable /* 可迭代对象 */) {
     // 返回结果一定是一个Promise实例
     return new MyPromise((resolve, reject) => {
@@ -95,14 +117,19 @@ export default class MyPromise {
       }
       // 如果迭代完，是个空
       if (index == 0) {
-        // 返回值为空数组的解决态promisee
+        // 返回值为空数组的解决态promise
         resolve([]);
       }
     });
   }
 
-  // 静态方法，竞速
-  // 返回第一个落定的promise，完成和拒绝状态同等优先级，都没有回调就是pending
+  /**
+   * @description 模拟Promise.race
+   * @static
+   * @param {*} iterable 可迭代对象
+   * @return {*}
+   * @memberof MyPromise  返回最先解决的promise，完成和拒绝状态同等优先级，都没有回调就是pending
+   */
   static race(iterable) {
     return new MyPromise((resolve, reject) => {
       let hasSettled = false;
@@ -129,11 +156,17 @@ export default class MyPromise {
     });
   }
 
-  // 返回一个new promise
+  /**
+   * @description 模拟Promise.prototype.then
+   * @param {*} onResolved 解决回调函数
+   * @param {*} onRejected 失败回调函数
+   * @return {*} 返回一个new promise
   // 如果有第一个参数（onResolved）,将onResolved推进回调队列
   // 推进回调队列的有可能是一个promise
   // 如果是普通值，则正常return
   // 如果是promise，则用返回值的then()方法
+   * @memberof MyPromise
+   */
   then(onResolved, onRejected) {
     return new MyPromise((resolve, reject) => {
       if (typeof onResolved === "function") {
@@ -157,6 +190,12 @@ export default class MyPromise {
     });
   }
 
+  /**
+   * @description 模拟Promise.prototype.catch
+   * @param {*} onRejected 失败回调函数
+   * @return {*}
+   * @memberof MyPromise
+   */
   catch(onRejected) {
     return this.then(null, onRejected);
   }

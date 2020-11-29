@@ -1,13 +1,13 @@
-// 实现jsonp
-// @url 请求路径
-// @method 请求方法
-// @params get请求参数
-// @data post请求参数
-// @headers 回调函数名称
-// @success 回调函数名称
-// @error 回调函数名称
+/**
+ * @description 模拟ajax函数
+ * @export
+ * @param {*} {
+ *   url, method, params, data, headers, success, error
+ *  请求路径，请求方法，get请求参数，post请求参数，头信息，成功回调函数，失败回调函数
+ * }
+ */
 export default function ajax({
-  url, method = "get", params, data, headers, success, error
+  url, method, params, data, headers, success, error
 }) {
   if (method == "get" && params) {
     let querystring = "?";

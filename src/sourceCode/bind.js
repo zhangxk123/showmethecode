@@ -1,6 +1,12 @@
-// 模拟bind方法
+/**
+ * @description 模拟Function.bind
+ * @export
+ * @param {*} 指定this对象
+ * @param {ArrayLike} 原函数参数列表
+ * @return {Function} 返回一个绑定指定this的新函数
+ */
 export default function myBind(ctx, ...args) {
-  // 判断ctx是否存在，否则ctx=window
+  // 非严格模式 this指向window
   if (ctx == null || ctx == undefined) {
     ctx = window;
   }

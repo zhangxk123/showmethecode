@@ -1,4 +1,10 @@
-// 深拷贝
+/**
+ * @description 深拷贝
+ * @export
+ * @param {*} obj 深拷贝的对象
+ * @param {*} [cache=new WeakMap()] 缓存对象，解决循环引用，利用WeakMap的弱引用防止内存溢出
+ * @return {*}
+ */
 export default function deepClone(obj, cache = new WeakMap()) {
   // 原始值
   if (!(obj instanceof Object)) {

@@ -1,5 +1,10 @@
-// 防抖
-// 在事件被触发 n 秒后再执行回调， 如果在这 n 秒内事件又被触发， 则重新计时。
+/**
+ * @description 防抖
+ * @export
+ * @param {*} fn 需要防抖的函数
+ * @param {number} [ms=1000 / 60] 默认在60帧的渲染的速度，1秒内60次
+ * @return {*} 返回一个包装函数，可防抖
+ */
 export default function debounce(fn, ms = 1000 / 60) {
   let timer = null;
   return function (...args) {
