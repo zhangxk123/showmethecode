@@ -1,21 +1,25 @@
 module.exports = {
+  // lint环境
   env: {
-    browser: true,
-    // "es2021": true,
+    es6: true,
     node: true,
   },
+  // 扩展规则
   extends: ["airbnb-base"],
-  parser: "@babel/eslint-parser",
   // 解析器
+  parser: "@babel/eslint-parser", // 配合babel使用
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 12, // 支持es12版本语法
     sourceType: "module", // default script
     ecmaFeatures: {
+      jsx: true,
       impliedStrict: true,
     },
   },
+  // 自定义规则 0关闭，1警告，2错误
   rules: {
     indent: ["error", 2],
+    "no-undef": [0],
     "no-underscore-dangle": [0],
     eqeqeq: [0],
     "quote-props": [0],

@@ -4,13 +4,12 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        // 如果没有配置，会使用browserslist配置
-        targets: {
-          "chrome": "58",
-          "ie": "9",
-          // "esmodules": true 目标为支持es6模块的浏览器环境
-          // "node": true // 目标代码为当前node最新版本的标准
-        },
+        // 如果配置，会覆盖browserslist配置，推荐使用browserslist，这样postcss以及其他工具共同使用一份配置
+        // targets: {
+        // "chrome": "58", 编译后的语法最低支持到chrome 58
+        // "esmodules": true 目标为支持es6模块的浏览器环境
+        // "node": true // 目标代码为当前node最新版本的标准
+        // },
         useBuiltIns: "usage", // 按需自动引入corejs@3的polyfill,entry是全局引入
         // 需安装生产依赖core-js@3和regenerator-runtime
         corejs: "3", // 当使用usage参数时，必须指定corejs版本，默认corejs@2，所以这里配置3，生产依赖需要安装core-js@3
