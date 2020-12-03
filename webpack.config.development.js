@@ -6,6 +6,7 @@ const isProd = process.env.NODE_ENV == "production";
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = {
@@ -103,6 +104,21 @@ module.exports = {
       root: "React",
     },
   },
+  devServer: {
+    proxy: {
+      // proxy URLs to backend development server
+      "/api": "http://localhost:3000",
+    },
+    contentBase: path.join(__dirname, "public"), // boolean | string | array, static file location
+    host: "0.0.0.0", // 这样服务可以被外部访问，默认localhost
+    port: "8080",
+    https: false, // true for self-signed, object for cert authority
+    compress: true, // gzip
+    historyApiFallback: true, // 404
+    hot: false, // hot module replacement. Depends on HotModuleReplacementPlugin
+    open: true,
+    clientLogLevel: "none",
+  },
   // 核心模块：插件
   plugins: [
     // 构建优化插件
@@ -116,6 +132,12 @@ module.exports = {
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "css/[name].[hash].css",
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "server", // server|json
+      analyzerHost: "127.0.0.1",
+      analyzerPort: "8888",
+      openAnalyzer: true// 打开网址
     }),
     // new DashboardPlugin()
   ]
