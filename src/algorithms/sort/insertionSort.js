@@ -1,8 +1,11 @@
-// 插入排序
 // 复杂度O(n^(1-2))
 // 数组元素少时，性能优于冒泡和选择排序
-
-// 实现
+/**
+ * @description 插入排序
+ * @export
+ * @param {*} arr
+ * @returns {*}
+ */
 export default function insertionSort(arr) {
   const { length } = arr;
   let temp;

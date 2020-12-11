@@ -1,7 +1,9 @@
-// 计数排序(整数排序算法)
-// 时间复杂度O(n+k) k代表临时计数数组的大小
-
-// 实现
+/**
+ * @description 计数排序(整数排序算法) 时间复杂度O(n+k) k代表临时计数数组的大小
+ * @export
+ * @param {*} arr
+ * @returns {*}
+ */
 export default function countingSort(arr) {
   if (arr.length < 2) {
     return arr;

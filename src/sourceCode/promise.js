@@ -1,21 +1,65 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-loop-func */
 
-const [PENDING, FULFILLED, REJECTED] = ["pending", "fulfilled", "rejected"];
+const [PENDING, FULFILLED, REJECTED] = [Symbol("pending"), Symbol("fulfilled"), Symbol("rejected")];
+/**
+ * @description  按照 ZPromise/A+ 规范中对不同类型的返回值 X 的处理规则
+ * @param {*} promise 第一个生成的promise
+ * @param {*} x 第一个生成的promise的返回值
+ * @param {*} resolve
+ * @param {*} reject
+ * @returns {*}
+ */
+const handleValue = (promise, x, resolve, reject) => {
+  // 循环引用，自己等待自己完成，会出错，用reject传递出错误原因
+  if (promise === x) {
+    return reject(new TypeError('检测到Promise的链式循环引用'));
+  }
+  // 确保只传递出去一次值
+  let once = false;
+  if ((x !== null && typeof x === 'object') || typeof x === 'function') {
+    // 防止重复去读取x.then
+    const { then } = x;
+    // 判断x是不是Promise
+    if (typeof then === 'function') {
+      // 调用then实例方法处理Promise执行结果
+      then.call(x, (y) => {
+        if (once) return;
+        once = true;
+        // 防止Promise中Promise执行成功后又传递一个Promise过来，
+        // 要做递归解析。
+        handleValue(promise, y, resolve, reject);
+      }, (r) => {
+        if (once) return;
+        once = true;
+        reject(r);
+      });
+    } else {
+      // 如果x是个普通对象，直接调用resolve(x)
+      resolve(x);
+    }
+  } else {
+    // 如果x是个原始值，直接调用resolve(x)
+    resolve(x);
+  }
+};
 /**
  * @description 模拟Promise类
  * @export
- * @class MyPromise
+ * @class ZPromise
  */
-export default class MyPromise {
-  constructor(execute) {
-    if (typeof execute !== "function") {
+class ZPromise {
+  constructor(excutor) {
+    if (typeof excutor !== "function") {
       throw Error("参数必须是一个函数");
     }
     // 状态
     this.state = PENDING;
-    // 值
-    this.result = undefined;
+    //
+    this.value = undefined;
+    this.reason = undefined;
     // 回调队列
     this.resolvedCbs = [];
     this.rejectedCbs = [];
@@ -23,7 +67,7 @@ export default class MyPromise {
     const resolve = (value) => {
       if (this.state != PENDING) return;
       this.state = FULFILLED;
-      this.result = value;
+      this.value = value;
       setTimeout(() => {
         this.resolvedCbs.map((cb) => cb(value));
       }, 0);
@@ -39,7 +83,7 @@ export default class MyPromise {
       }, 0);
     };
     try {
-      execute(resolve, reject);
+      excutor(resolve, reject);
     } catch (error) {
       // 如果报错执行reject
       reject(error);
@@ -52,14 +96,14 @@ export default class MyPromise {
    * @static
    * @param {*} param
    * @return {*} 返回一个实例对象
-   * @memberof MyPromise
+   * @memberof ZPromise
    */
   static resolve(param) {
-    if (param instanceof MyPromise) {
+    if (param instanceof ZPromise) {
       // 幂等
       return param;
     }
-    return new MyPromise((resolve) => {
+    return new ZPromise((resolve) => {
       resolve(param);
     });
   }
@@ -69,10 +113,10 @@ export default class MyPromise {
    * @static
    * @param {*} param
    * @return {*} 返回一个实例对象
-   * @memberof MyPromise
+   * @memberof ZPromise
    */
   static reject(param) {
-    return new MyPromise((resolve, reject) => {
+    return new ZPromise((resolve, reject) => {
       reject(param);
     });
   }
@@ -86,7 +130,7 @@ export default class MyPromise {
    */
   static all(iterable /* 可迭代对象 */) {
     // 返回结果一定是一个Promise实例
-    return new MyPromise((resolve, reject) => {
+    return new ZPromise((resolve, reject) => {
       let index = 0; // 元素索引
       const result = []; // 全部解决的结果数组
       let resCount = 0; // 解决的个数
@@ -128,10 +172,10 @@ export default class MyPromise {
    * @static
    * @param {*} iterable 可迭代对象
    * @return {*}
-   * @memberof MyPromise  返回最先解决的promise，完成和拒绝状态同等优先级，都没有回调就是pending
+   * @memberof ZPromise  返回最先解决的promise，完成和拒绝状态同等优先级，都没有回调就是pending
    */
   static race(iterable) {
-    return new MyPromise((resolve, reject) => {
+    return new ZPromise((resolve, reject) => {
       let hasSettled = false;
       // 迭代参数的个数
       for (const element of iterable) {
@@ -165,38 +209,71 @@ export default class MyPromise {
   // 推进回调队列的有可能是一个promise
   // 如果是普通值，则正常return
   // 如果是promise，则用返回值的then()方法
-   * @memberof MyPromise
+   * @memberof ZPromise
    */
-  then(onResolved, onRejected) {
-    return new MyPromise((resolve, reject) => {
-      if (typeof onResolved === "function") {
-        this.resolvedCbs.push(() => {
-          const result = onResolved(this.result);
-          if (result instanceof MyPromise) {
-            return result.then(resolve);
-          }
-          return result;
-        });
+  then(onFulfilled, onRejected) {
+    const promise = new ZPromise((resolve, reject) => {
+      // 解决状态
+      if (this.status === FULFILLED) {
+        if (onFulfilled && typeof onFulfilled === 'function') {
+          // 一定是异步调用
+          setTimeout(() => {
+            const x = onFulfilled(this.value);
+            handleValue(promise, x, resolve, reject);
+          }, 0);
+        }
       }
-      if (typeof onRejected === "function") {
-        this.rejectedCbs.push(() => {
-          const result = onRejected(this.result);
-          if (result instanceof MyPromise) {
-            return result.then(null, reject);
-          }
-          return result;
-        });
+      if (this.status === REJECTED) {
+        if (onRejected && typeof onRejected === 'function') {
+          setTimeout(() => {
+            const x = onRejected(this.reason);
+            handleValue(promise, x, resolve, reject);
+          }, 0);
+        }
+      }
+      // 注册时状态还是pending 将回调注册到cbs
+      if (this.status === PENDING) {
+        if (onFulfilled && typeof onFulfilled === 'function') {
+          this.onFulfilled.push(() => {
+            setTimeout(() => {
+              const x = onFulfilled(this.value);
+              handleValue(promise, x, resolve, reject);
+            }, 0);
+          });
+        }
+        if (onRejected && typeof onRejected === 'function') {
+          this.onRejected.push(() => {
+            setTimeout(() => {
+              const x = onRejected(this.reason);
+              handleValue(promise, x, resolve, reject);
+            }, 0);
+          });
+        }
       }
     });
+    // 返回一个新的promise
+    return promise;
   }
 
   /**
    * @description 模拟Promise.prototype.catch
    * @param {*} onRejected 失败回调函数
    * @return {*}
-   * @memberof MyPromise
+   * @memberof ZPromise
    */
   catch(onRejected) {
     return this.then(null, onRejected);
   }
+
+  static deferred() {
+    const result = {};
+    result.promise = new ZPromise((resolve, reject) => {
+      result.resolve = resolve;
+      result.reject = reject;
+    });
+
+    return result;
+  }
 }
+
+module.exports = ZPromise;
