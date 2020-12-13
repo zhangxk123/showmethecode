@@ -6,8 +6,8 @@
 const [PENDING, FULFILLED, REJECTED] = [Symbol("pending"), Symbol("fulfilled"), Symbol("rejected")];
 /**
  * @description  按照 ZPromise/A+ 规范中对不同类型的返回值 X 的处理规则
- * @param {*} promise 第一个生成的promise
- * @param {*} x 第一个生成的promise的返回值
+ * @param {*} promise promise对象
+ * @param {*} x promise对象的返回值
  * @param {*} resolve
  * @param {*} reject
  * @returns {*}
@@ -68,19 +68,14 @@ class ZPromise {
       if (this.state != PENDING) return;
       this.state = FULFILLED;
       this.value = value;
-      setTimeout(() => {
-        this.resolvedCbs.map((cb) => cb(value));
-      }, 0);
+      this.resolvedCbs.map(cb.bind(this, value));
     };
     // reject操作
     const reject = (reason) => {
       if (this.state != PENDING) return;
       this.state = REJECTED;
       this.result = reason;
-      // 模拟微任务
-      setTimeout(() => {
-        this.rejectedCbs.map((cb) => cb(reason));
-      }, 0);
+      this.rejectedCbs.map(cb.bind(this, reason));
     };
     try {
       excutor(resolve, reject);
@@ -126,7 +121,7 @@ class ZPromise {
    * @static
    * @param {*} iterable 可迭代对象
    * @return {*} 返回一个实例对象，值可能是结果数组或者失败理由
-   * @memberof MyPromiPse
+   * @memberof ZPromise
    */
   static all(iterable /* 可迭代对象 */) {
     // 返回结果一定是一个Promise实例
@@ -212,11 +207,13 @@ class ZPromise {
    * @memberof ZPromise
    */
   then(onFulfilled, onRejected) {
+    // 值传递
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (v) => v;
+    onRejected = typeof onRejected === 'function' ? onRejected : (err) => { throw err; };
     const promise = new ZPromise((resolve, reject) => {
       // 解决状态
       if (this.status === FULFILLED) {
         if (onFulfilled && typeof onFulfilled === 'function') {
-          // 一定是异步调用
           setTimeout(() => {
             const x = onFulfilled(this.value);
             handleValue(promise, x, resolve, reject);
