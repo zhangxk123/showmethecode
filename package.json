@@ -62,8 +62,10 @@
   },
   "lint-staged": {
     "src/**/*.{js,json,ts,tsx,jsx}": [
-      "npm run lint",
-      "git add"
+      "npm run lint"
+    ],
+    "learn/**/*.{js,json,ts,tsx,jsx}": [
+      "npm run lint"
     ]
   },
   "dependencies": {

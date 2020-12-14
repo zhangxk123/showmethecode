@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /**
  * @description 实现一个轮询功能，包装异步请求，成功则成功，失败则最多尝试max次
  * @param {any} req 异步请求函数，返回thenable对象
