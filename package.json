@@ -9,7 +9,7 @@
     "lint": "eslint --fix",
     "babel": "babel src -d lib",
     "test": "mocha",
-    "test:promise": "promises-aplus-tests src/sourceCode/promise.js"
+    "test:promise": "promises-aplus-tests src/sourceCode/promiseA.js"
   },
   "author": "zhang.xiaokang",
   "license": "ISC",
