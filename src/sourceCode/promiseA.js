@@ -84,7 +84,7 @@ class PromiseA {
     // 值穿透
     onResolved = typeof onResolved === "function" ? onResolved : (value) => value;
     onRejected = typeof onRejected === "function" ? onRejected : (reason) => { throw reason; };
-    const promise = new Promise((resolve, reject) => {
+    const promise = new PromiseA((resolve, reject) => {
       if (this.state === FULFILLED) {
         setTimeout(() => {
           try {
